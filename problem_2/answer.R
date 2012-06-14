@@ -8,7 +8,7 @@ stream.make <- function(head, tail) {
     else if (msg == "head") {
       head
     } else if (msg == "tail") {
-      tail()
+      tail
     }
   }
 }
@@ -31,7 +31,7 @@ stream.take <- function(n, st) {
   } else {
     stream.make(
       stream.head(st),
-      function() { stream.take(n-1, stream.tail(st)) }
+      stream.take(n-1, stream.tail(st))
     )
   }
 }
@@ -41,7 +41,7 @@ stream.take_while <- function(pred, st) {
   if (pred(head)) {
     stream.make(
       head,
-      function() { stream.take_while(pred, stream.tail(st)) }
+      stream.take_while(pred, stream.tail(st))
     )
   } else {
     stream.end
@@ -75,7 +75,7 @@ stream.filter <- function(pred, st) {
   else if (pred(head)) {
     stream.make(
       head,
-      function() { stream.filter(pred, tail) }
+      stream.filter(pred, tail)
     )
   } else {
     stream.filter(pred, tail)
@@ -86,7 +86,7 @@ stream.fib <- (function() {
   fibgen <- function(a, b) {
     stream.make(
       a,
-      function() { fibgen(b, a+b) }
+      fibgen(b, a+b)
     )
   }
   fibgen(1, 2)
