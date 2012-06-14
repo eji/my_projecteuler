@@ -103,3 +103,4 @@ answer <- stream.sum(
   )
 )
 
+cat("answer:", answer, "\n")
