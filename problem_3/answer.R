@@ -1,26 +1,25 @@
-gcd <- function(a,b) ifelse (b==0, a, gcd(b, a %% b)) 
-
-prime_factorization.pollards_rho <- function(n, c) {
-  x <- y <- p <- 1
-  while (p == 1) {
-  
+prime_factorize <- function(n) {
+  d <- 1
+  x <- y <- 2
+  while (d == 1) {
+    rx <- runif(1, min=2, max=n)
+    x <- floor(rx)
+    ry <- runif(1, min=2, max=n)
+    y <- floor(ry)
+    d <- gcd(abs(x-y), n)
   }
-  p
+  d
 }
 
-answer <- function() {
-  #num <- 600851475143
-  num <- 13195
-  stream.last(
-    stream.filter(
-      function(n) { num%%n == 0 },
-      stream.take_while(
-        function(n) { n < num },
-        stream.primes
-        #stream.gen(2, Inf)
-      )
-    )
-  )
+prime_factor_list <- function(n) {
+  prime_factors <- NULL
+  repeat {
+    pn <- prime_factorize(n)
+    prime_factors <- append(prime_factors, pn)
+    if (pn == n) break
+    n <- n/pn
+  }
+  prime_factors
 }
 
-cat("answer:", answer(), "\n")
+answer <- function() cat("answer:", max(prime_factor_list(600851475143)), "\n")
